@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
@@ -9,4 +8,10 @@ function App() {
   );
 }
 
-export default App;
+function App2() {
+	return (
+		<p> This is made manually by the user.</p>
+	);
+}
+
+export {App, App2};
