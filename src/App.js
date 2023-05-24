@@ -4,7 +4,7 @@ function App() {
       return (
         <div>
 	        <h1> We are in {process.env.REACT_APP_ENV}.</h1>
-	        <p>This paragraph will be deleted.</p>
+	        <p>This part is changed.</p>
 	        <p> This is prod env variable animal: {process.env.REACT_APP_CREATURE}</p>
         </div>
       )

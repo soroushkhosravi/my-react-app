@@ -10,8 +10,11 @@ RUN npm ci --silent
 RUN npm install react-scripts@3.4.1 -g --silent
 COPY . ./
 
-FROM build as brp
+FROM build as production
 RUN npm run build
+
+FROM build as staging
+RUN npm run staging
 
 FROM build as branch-development
 CMD ["npm", "start"]
@@ -19,6 +22,11 @@ CMD ["npm", "start"]
 
 FROM nginx:stable-alpine as branch-production
 COPY --from=brp /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+FROM nginx:stable-alpine as branch-staging
+COPY --from=staging /app/build /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
