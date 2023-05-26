@@ -62,4 +62,12 @@ function User(props) {
       )
 }
 
-export {App, App2, User};
+function RequestLoader(){
+	const { jwt } = useParams();
+	localStorage.setItem("jwt", jwt)
+	return (
+		<div>JWT token saved successfully.</div>
+	)
+}
+
+export {App, App2, User, RequestLoader};
