@@ -1,5 +1,6 @@
 import './App.css';
 import {Link, useParams} from "react-router-dom";
+import { useState } from 'react';
 function App(props) {
 
 	  const names = props.names;
@@ -32,9 +33,31 @@ function App2(props) {
 
 function User(props) {
 	  const { id } = useParams();
+	  const [name, setName] = useState("Soroush");
+
+	  let changeName = function(){
+	    if (name === "Soroush"){
+	        setName("Farnaz");
+	    };
+	    if (name === "Farnaz"){
+	        setName("Soroush");
+	    };
+	  }
+
+	  let buttonMessage = function(){
+	    if (name === "Farnaz"){
+	        return "Change name to Soroush."
+	    }
+	    if (name === "Soroush"){
+	        return "Change name to Farnaz."
+	    }
+	  }
+
       return (
         <div>
-	        <p1> We are in user page: {id}.</p1>
+	        <p> We are in user page: {id} and user name: {name}</p>
+	        <br />
+	        <button onClick={e => {changeName();}}>{buttonMessage()}</button>
         </div>
       )
 }
