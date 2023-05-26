@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import {App, App2} from './App';
+import {App, App2, User} from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 
@@ -9,8 +9,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<BrowserRouter>
 		<Routes>
-            <Route path="/" element={<App name="App" names={["soroush", "farnaz"]} />} />
+            <Route path="/" element={<App name="App" names={["soroush", "farnaz"]} users={[10, 12]} />} />
             <Route path="/app2" element={<App2 name="App2"/>} />
+            <Route path="/user/:id" element={<User/>} />
         </Routes>
 	</BrowserRouter>
 );
