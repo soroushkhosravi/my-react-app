@@ -21,12 +21,14 @@ CMD ["npm", "start"]
 
 
 FROM nginx:stable-alpine as branch-production
-COPY --from=brp /app/build /usr/share/nginx/html
+COPY --from=production /app/build /usr/share/nginx/html
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
 FROM nginx:stable-alpine as branch-staging
 COPY --from=staging /app/build /usr/share/nginx/html
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
