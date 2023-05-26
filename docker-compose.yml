@@ -11,7 +11,7 @@ services:
         # This argument is used in build time in Dockerfile to define that
         # how we want to create the image from Dockerfile.
         # It should be development for dev purposes and production for production purposes.
-        - ENVIRONMENT=development
+        - ENVIRONMENT=production
     volumes:
       - '.:/app'
       - '/app/node_modules'
