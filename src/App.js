@@ -1,6 +1,6 @@
 import './App.css';
-import {Link, useParams} from "react-router-dom";
-import { useState } from 'react';
+import {Link, useParams, useNavigate} from "react-router-dom";
+import { useState, useEffect } from 'react';
 function App(props) {
 
 	  const names = props.names;
@@ -65,9 +65,13 @@ function User(props) {
 function RequestLoader(){
 	const { jwt } = useParams();
 	localStorage.setItem("jwt", jwt)
-	return (
-		<div>JWT token saved successfully.</div>
-	)
+	const navigate = useNavigate();
+	let jwtSaved = true;
+	useEffect(() => {
+    if (jwtSaved) {
+      navigate("/");
+    }
+  }, [jwtSaved]);
 }
 
 export {App, App2, User, RequestLoader};
