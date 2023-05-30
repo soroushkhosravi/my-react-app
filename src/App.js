@@ -1,37 +1,46 @@
 import './App.css';
 import {Link, useParams, useNavigate} from "react-router-dom";
 import { useState, useEffect } from 'react';
-function App(props) {
 
+function JWTMissed(){
+	return localStorage.getItem("jwt_token") === null
+}
+function SetJWT(){
+	console.log(window.location.origin)
+	window.location.assign('http://127.0.0.1/login?next_url=' + window.location.origin + '/jwt');
+	return
+}
+
+function needsJWTSet(){
+	let needsJWT = false;
+	if (JWTMissed()){
+		SetJWT();
+		needsJWT = true;
+	}
+	return needsJWT;
+}
+
+function App(props) {
 	  const names = props.names;
 	  const users = props.users;
-	  if(localStorage.getItem("jwt_token") === null){
-	    console.log(window.location.origin)
-		window.location.assign('http://127.0.0.1/login?next_url=' + window.location.origin + '/jwt');
-		return
+	  if (needsJWTSet()){
+	    return
 	  }
       return (
         <div>
-	        <h1> We are in {process.env.REACT_APP_ENV}.</h1>
-	        <p> This is app name: {props.name}</p>
-	        {
-	            names.map(
-	                (name) => (<ul><li><Link to="app2" target="_blank">Click here to see App2 component.</Link></li></ul>)
-	            )
-	        }
-	        {
-	            users.map(
-	                (user) => (<ul><li><Link to={"user/" + user} target="_blank">Click here to see user with id: {user}.</Link></li></ul>)
-	            )
-	        }
+	        <h1>{process.env.REACT_APP_ENV} environment.</h1>
+	        <p> This is home page.</p>
         </div>
       )
 }
 
 function App2(props) {
+	  if (needsJWTSet()){
+	    return
+	  }
       return (
         <div>
-	        <p1> We are in {props.name} now.</p1>
+	        <p> We are in {props.name} now.</p>
         </div>
       )
 }
