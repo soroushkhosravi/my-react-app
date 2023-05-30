@@ -5,6 +5,11 @@ function App(props) {
 
 	  const names = props.names;
 	  const users = props.users;
+	  if(localStorage.getItem("jwt_token") === null){
+	    console.log(window.location.origin)
+		window.location.assign('http://127.0.0.1/login?next_url=' + window.location.origin + '/jwt');
+		return
+	  }
       return (
         <div>
 	        <h1> We are in {process.env.REACT_APP_ENV}.</h1>
@@ -64,7 +69,7 @@ function User(props) {
 
 function RequestLoader(){
 	const { jwt } = useParams();
-	localStorage.setItem("jwt", jwt)
+	localStorage.setItem("jwt_token", jwt)
 	const navigate = useNavigate();
 	let jwtSaved = true;
 	useEffect(() => {
