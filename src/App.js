@@ -22,9 +22,9 @@ function App(props) {
 	const [show, setShow] = useState(false);
 	const [username, setUserName] = useState(null);
 	const [email, setEmail] = useState(null);
+	const [jwt_token] = useState(localStorage.getItem("jwt_token"))
 	useEffect(() => {
 		async function setToken(){
-			let jwt_token = localStorage.getItem("jwt_token");
 			if (jwt_token === null){
 				SetJWT();
 			}
@@ -48,7 +48,7 @@ function App(props) {
 			}
 		};
 		setToken();
-	}, [show])
+	}, [jwt_token])
 	if (show === true){
 	    return (
 			<div>
