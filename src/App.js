@@ -19,7 +19,7 @@ function userURL(){
 
 
 function App(props) {
-	const [show, setShow] = useState(false);
+	const [showComponent, setShowComponent] = useState(false);
 	const [username, setUserName] = useState(null);
 	const [email, setEmail] = useState(null);
 	const [jwt_token] = useState(localStorage.getItem("jwt_token"))
@@ -43,13 +43,13 @@ function App(props) {
 				if(jsonified.message === 'current user is found.'){
 					setUserName(JSON.parse(jsonified.user).username);
 					setEmail(JSON.parse(jsonified.user).email);
-					setShow(true);
+					setShowComponent(true);
 				}
 			}
 		};
 		setToken();
 	}, [jwt_token])
-	if (show === true){
+	if (showComponent === true){
 	    return (
 			<div>
 			    <h1>{process.env.REACT_APP_ENV} environment.</h1>
