@@ -19,36 +19,54 @@ function App(props) {
 	const [username, setUserName] = useState(null);
 	const [email, setEmail] = useState(null);
 	const [jwt_token] = useState(localStorage.getItem("jwt_token"))
+	const [apiRead, setApiRead] = useState(false);
+	const [apiError, setApiError] = useState(null);
 
 	useEffect(() => {
 		async function setToken(){
-			const response = await fetch(
-				userURL(),
-				{
-					method: 'GET',
-					headers: {'Authentication': createToken(jwt_token)}
+			try {
+				const response = await fetch(
+					userURL(),
+					{
+						method: 'GET',
+						headers: {'Authentication': createToken(jwt_token)}
+					}
+				)
+				const json_response = await response.json();
+				if(json_response.message === 'user not logged in.'){
+					window.location.assign(json_response.auth_url + '?next_url=' + signInCallbackURL());
 				}
-			)
-			const json_response = await response.json();
-			if(json_response.message === 'user not logged in.'){
-				window.location.assign(json_response.auth_url + '?next_url=' + signInCallbackURL());
-			}
-			if(json_response.message === 'current user is found.'){
-				const user_data = JSON.parse(json_response.user)
-				setUserName(user_data.username);
-				setEmail(user_data.email);
+				if(json_response.message === 'current user is found.'){
+					const user_data = JSON.parse(json_response.user)
+					setUserName(user_data.username);
+					setEmail(user_data.email);
+					setRenderComponent(true);
+					setApiRead(true);
+				}
+			} catch (error){
 				setRenderComponent(true);
+				setApiRead(false);
+				setApiError(error.message);
 			}
-		};
+		}
 		setToken();
 	}, [jwt_token])
-	if (renderComponent === true){
+	if (renderComponent === true && apiRead === true){
 	    return (
 			<div>
 				< LogOut />
 			    <h1>{process.env.REACT_APP_ENV} environment.</h1>
 			    <p> The user is {username} with email {email}</p>
 			    <p> This is home page.</p>
+			</div>
+		)
+	}
+	if (renderComponent === true && apiRead === false){
+	    return (
+			<div>
+				< LogOut />
+			    <h1>{process.env.REACT_APP_ENV} environment.</h1>
+			    <p> There was an error reading from api: {apiError}.</p>
 			</div>
 		)
 	}
