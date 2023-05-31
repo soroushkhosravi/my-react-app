@@ -1,14 +1,21 @@
 import './App.css';
-import {Link, useParams, useNavigate} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import { useState, useEffect } from 'react';
 
 function JWTMissed(){
 	return localStorage.getItem("jwt_token") === null
 }
 function SetJWT(){
-	console.log(window.location.origin)
-	window.location.assign(process.env.REACT_APP_BACKEND_URL + '/login?next_url=' + window.location.origin + '/jwt');
+	window.location.assign(signInURL() + signInCallbackURL());
 	return
+}
+
+function signInCallbackURL(){
+	return window.location.origin + '/jwt';
+}
+
+function signInURL(){
+	return process.env.REACT_APP_BACKEND_URL + '/login?next_url=';
 }
 
 function needsJWTSet(){
@@ -21,8 +28,6 @@ function needsJWTSet(){
 }
 
 function App(props) {
-	  const names = props.names;
-	  const users = props.users;
 	  if (needsJWTSet()){
 	    return
 	  }
@@ -85,7 +90,7 @@ function RequestLoader(){
     if (jwtSaved) {
       navigate("/");
     }
-  }, [jwtSaved]);
+  }, [jwtSaved, navigate]);
 }
 
 export {App, App2, User, RequestLoader};
