@@ -85,12 +85,7 @@ function RequestLoader(){
 	const { jwt } = useParams();
 	localStorage.setItem("jwt_token", jwt)
 	const navigate = useNavigate();
-	let jwtSaved = true;
-	useEffect(() => {
-    if (jwtSaved) {
-      navigate("/");
-    }
-  }, [jwtSaved, navigate]);
+	useEffect(() => { navigate("/");}, [navigate]);
 }
 
 export {App, App2, User, RequestLoader};
