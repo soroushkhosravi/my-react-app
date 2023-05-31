@@ -1,13 +1,9 @@
 import './App.css';
 import {useParams, useNavigate} from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useState, useEffect} from 'react';
 
-function JWTMissed(){
-	return localStorage.getItem("jwt_token") === null
-}
 function SetJWT(){
 	window.location.assign(signInURL() + signInCallbackURL());
-	return
 }
 
 function signInCallbackURL(){
@@ -17,32 +13,54 @@ function signInCallbackURL(){
 function signInURL(){
 	return process.env.REACT_APP_BACKEND_URL + '/login?next_url=';
 }
-
-function needsJWTSet(){
-	let needsJWT = false;
-	if (JWTMissed()){
-		SetJWT();
-		needsJWT = true;
-	}
-	return needsJWT;
+function userURL(){
+	return process.env.REACT_APP_BACKEND_URL + '/api/user'
 }
 
+
 function App(props) {
-	  if (needsJWTSet()){
-	    return
-	  }
-      return (
-        <div>
-	        <h1>{process.env.REACT_APP_ENV} environment.</h1>
-	        <p> This is home page.</p>
-        </div>
-      )
+	const [show, setShow] = useState(false);
+	const [username, setUserName] = useState(null);
+	const [email, setEmail] = useState(null);
+	useEffect(() => {
+		async function setToken(){
+			let jwt_token = localStorage.getItem("jwt_token");
+			if (jwt_token === null){
+				SetJWT();
+			}
+			else{
+				const resp = await fetch(userURL(),
+				{
+					method: 'GET',
+					headers: {
+						'Authentication': 'Bearer ' + jwt_token
+					}
+				})
+				const jsonified = await resp.json();
+				if(jsonified.message === 'user not logged in.'){
+					SetJWT();
+				}
+				if(jsonified.message === 'current user is found.'){
+					setUserName(JSON.parse(jsonified.user).username);
+					setEmail(JSON.parse(jsonified.user).email);
+					setShow(true);
+				}
+			}
+		};
+		setToken();
+	}, [show])
+	if (show === true){
+	    return (
+			<div>
+			    <h1>{process.env.REACT_APP_ENV} environment.</h1>
+			    <p> The user is {username} with email {email}</p>
+			    <p> This is home page.</p>
+			</div>
+		)
+	}
 }
 
 function App2(props) {
-	  if (needsJWTSet()){
-	    return
-	  }
       return (
         <div>
 	        <p> We are in {props.name} now.</p>
