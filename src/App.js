@@ -19,37 +19,41 @@ function userURL(){
 
 
 function App(props) {
-	const [showComponent, setShowComponent] = useState(false);
+	const [renderComponent, setRenderComponent] = useState(false);
 	const [username, setUserName] = useState(null);
 	const [email, setEmail] = useState(null);
 	const [jwt_token] = useState(localStorage.getItem("jwt_token"))
+
 	useEffect(() => {
 		async function setToken(){
 			if (jwt_token === null){
 				SetJWT();
 			}
 			else{
-				const resp = await fetch(userURL(),
-				{
-					method: 'GET',
-					headers: {
-						'Authentication': 'Bearer ' + jwt_token
+				const response = await fetch(
+					userURL(),
+					{
+						method: 'GET',
+						headers: {
+							'Authentication': 'Bearer ' + jwt_token
+						}
 					}
-				})
-				const jsonified = await resp.json();
-				if(jsonified.message === 'user not logged in.'){
+				)
+				const json_response = await response.json();
+				if(json_response.message === 'user not logged in.'){
 					SetJWT();
 				}
-				if(jsonified.message === 'current user is found.'){
-					setUserName(JSON.parse(jsonified.user).username);
-					setEmail(JSON.parse(jsonified.user).email);
-					setShowComponent(true);
+				if(json_response.message === 'current user is found.'){
+					const user_data = JSON.parse(json_response.user)
+					setUserName(user_data.username);
+					setEmail(user_data.email);
+					setRenderComponent(true);
 				}
 			}
 		};
 		setToken();
 	}, [jwt_token])
-	if (showComponent === true){
+	if (renderComponent === true){
 	    return (
 			<div>
 			    <h1>{process.env.REACT_APP_ENV} environment.</h1>
