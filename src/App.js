@@ -7,7 +7,7 @@ function JWTMissed(){
 }
 function SetJWT(){
 	console.log(window.location.origin)
-	window.location.assign('http://127.0.0.1/login?next_url=' + window.location.origin + '/jwt');
+	window.location.assign(process.env.REACT_APP_BACKEND_URL + '/login?next_url=' + window.location.origin + '/jwt');
 	return
 }
 
