@@ -16,6 +16,9 @@ function signInURL(){
 function userURL(){
 	return process.env.REACT_APP_BACKEND_URL + '/api/user'
 }
+function createToken(token){
+	return "Bearer " + token;
+}
 
 
 function App(props) {
@@ -35,7 +38,7 @@ function App(props) {
 					{
 						method: 'GET',
 						headers: {
-							'Authentication': 'Bearer ' + jwt_token
+							'Authentication': createToken(jwt_token)
 						}
 					}
 				)
