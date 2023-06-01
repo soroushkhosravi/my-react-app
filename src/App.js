@@ -67,36 +67,32 @@ function App(props) {
 					}
 				)
 				const json_response = await response.json();
+				setApiRead(true);
 				if(json_response.message === 'user not logged in.'){
-//					window.location.assign(json_response.auth_url + '?next_url=' + signInCallbackURL());
 					setUserLoggedIn(false);
 					setAuthURL(json_response.auth_url);
-					setApiRead(true);
 				}
 				if(json_response.message === 'current user is found.'){
 					const user_data = JSON.parse(json_response.user)
 					setUserName(user_data.username);
 					setEmail(user_data.email);
 					setUserLoggedIn(true);
-					setApiRead(true);
 				}
 			} catch (error){
-				setUserLoggedIn(true);
 				setApiRead(false);
 				setApiError(error.message);
 			}
 		}
 		setToken();
 	}, [jwt_token, setApiError, setApiRead, setEmail, setUserName, setUserLoggedIn, setAuthURL])
-	if (userLoggedIn === false && apiRead === true){
+	if (apiRead === false){
 		return(
 			<div>
-			 < LogIn auth_url={authURL} />
+				<p>Application not available because of: {apiError}</p>
 			</div>
 		)
-	}
-	if (userLoggedIn === true && apiRead === true){
-	    return (
+	} else if (userLoggedIn === true){
+		return (
 			<div>
 				< LogOut />
 			    <h1>{process.env.REACT_APP_ENV} environment.</h1>
@@ -104,13 +100,10 @@ function App(props) {
 			    <p> This is home page.</p>
 			</div>
 		)
-	}
-	if (userLoggedIn === true && apiRead === false){
-	    return (
+	} else if( userLoggedIn === false ){
+		return(
 			<div>
-				< LogOut />
-			    <h1>{process.env.REACT_APP_ENV} environment.</h1>
-			    <p> There was an error reading from api: {apiError}.</p>
+			 < LogIn auth_url={authURL} />
 			</div>
 		)
 	}
@@ -128,7 +121,7 @@ function LogOut(){
 		localStorage.removeItem("jwt_token");
 		window.location.assign(window.origin);
 	}
-	return (<button onClick={removeJWT}>Click me to log out.</button>);
+	return (<button onClick={removeJWT}>Log out</button>);
 }
 
 function LogIn(props){
