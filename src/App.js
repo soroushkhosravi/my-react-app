@@ -121,14 +121,14 @@ function LogOut(){
 		localStorage.removeItem("jwt_token");
 		window.location.assign(window.origin);
 	}
-	return (<button onClick={removeJWT}>Log out</button>);
+	return (<button class="btn btn-danger" onClick={removeJWT}>Log out</button>);
 }
 
 function LogIn(props){
 	function redirectToLogInPage(){
 		window.location.assign(props.auth_url + '?next_url=' + signInCallbackURL());
 	}
-	return (<button onClick={redirectToLogInPage}> Log In </button>);
+	return (<button class="btn btn-primary" onClick={redirectToLogInPage}> Log In </button>);
 }
 
 export {App, SetJWT, LogOut};

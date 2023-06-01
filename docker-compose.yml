@@ -11,12 +11,13 @@ services:
         # This argument is used in build time in Dockerfile to define that
         # how we want to create the image from Dockerfile.
         # It should be development for dev purposes and production for production purposes.
-        - ENVIRONMENT=production
+        - ENVIRONMENT=development
     volumes:
       - '.:/app'
       - '/app/node_modules'
     ports:
       - 3000:3000
-      - 80:80
+#      Open just port 80 when arg is production
+#      - 80:80
     environment:
       - CHOKIDAR_USEPOLLING=true
