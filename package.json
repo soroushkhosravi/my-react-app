@@ -18,7 +18,7 @@
     "start": "env-cmd --environments development react-scripts start",
     "staging": "env-cmd --environments staging react-scripts build",
     "build": "env-cmd --environments production react-scripts build",
-    "test": "react-scripts test",
+    "test": "env-cmd --environments development react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
