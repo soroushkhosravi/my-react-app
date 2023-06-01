@@ -13,14 +13,43 @@ function createToken(token){
 	return "Bearer " + token;
 }
 
-
-function App(props) {
+function SetInitials(){
 	const [renderComponent, setRenderComponent] = useState(false);
 	const [username, setUserName] = useState(null);
 	const [email, setEmail] = useState(null);
 	const [jwt_token] = useState(localStorage.getItem("jwt_token"))
 	const [apiRead, setApiRead] = useState(false);
 	const [apiError, setApiError] = useState(null);
+	return [
+		renderComponent,
+		setRenderComponent,
+		username,
+		setUserName,
+		email,
+		setEmail,
+		jwt_token,
+		apiRead,
+		setApiRead,
+		apiError,
+		setApiError
+	];
+};
+
+
+function App(props) {
+	const [
+		renderComponent,
+		setRenderComponent,
+		username,
+		setUserName,
+		email,
+		setEmail,
+		jwt_token,
+		apiRead,
+		setApiRead,
+		apiError,
+		setApiError
+	] = SetInitials();
 
 	useEffect(() => {
 		async function setToken(){
@@ -50,7 +79,7 @@ function App(props) {
 			}
 		}
 		setToken();
-	}, [jwt_token])
+	}, [jwt_token, setApiError, setApiRead, setEmail, setUserName, setRenderComponent,])
 	if (renderComponent === true && apiRead === true){
 	    return (
 			<div>
