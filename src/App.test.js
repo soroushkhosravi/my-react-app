@@ -3,7 +3,7 @@ import {App} from './App';
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 
-const userResponse = rest.get(
+const LoggedInUserResponse = rest.get(
 	"http://127.0.0.1/api/user",
 	(req, res, ctx) => {
 		return res(
@@ -17,7 +17,21 @@ const userResponse = rest.get(
 	}
 )
 
-const handlers = [userResponse,]
+const NotLoggedInUserResponse = rest.get(
+	"http://127.0.0.1/api/user",
+	(req, res, ctx) => {
+		return res(
+			ctx.json(
+				{
+					message: "user not logged in.",
+					user: JSON.stringify({"username": "soroush", "email": "khosravi"})
+				}
+			)
+		)
+	}
+)
+
+const handlers = [LoggedInUserResponse,]
 
 const server = setupServer(...handlers);
 
@@ -25,14 +39,23 @@ beforeAll(() => server.listen());
 afterEach(()=> server.resetHandlers());
 afterAll(() => server.close());
 
-test('App rendering because of backend not responding.', () => {
+test('App rendering for a logged in user.', async () => {
   render(<App />);
-  const linkElement = screen.getByText(/Application not available because of:/i);
-  expect(linkElement).toBeInTheDocument();
+  const originElement = await screen.findByText("Application not available because of:")
+  expect(originElement).toBeInTheDocument();
+  const firstEl = await screen.findByText("This is home page.");
+  const secEl = await screen.findByText("development environment.");
+  const thirdEl = await screen.findByText("The user is soroush with email khosravi")
+  const LogOutButton = await screen.findByText("Log out")
+  expect(firstEl).toBeInTheDocument();
+  expect(secEl).toBeInTheDocument();
+  expect(thirdEl).toBeInTheDocument();
+  expect(LogOutButton).toBeInTheDocument();
 });
 
-test('Another test.', async () => {
+test('Not logged in user response shows Login button.', async () => {
+  server.use(NotLoggedInUserResponse);
   render(<App />);
-  const secEl = await screen.findByText("The user is soroush with email khosravi");
+  const secEl = await screen.findByText("Log In");
   expect(secEl).toBeInTheDocument();
 });

@@ -14,7 +14,7 @@ function createToken(token){
 }
 
 function SetInitials(){
-	const [userLoggedIn, setUserLoggedIn] = useState(false);
+	const [userLoggedIn, setUserLoggedIn] = useState(null);
 	const [username, setUserName] = useState(null);
 	const [email, setEmail] = useState(null);
 	const [jwt_token] = useState(localStorage.getItem("jwt_token"))
@@ -121,14 +121,14 @@ function LogOut(){
 		localStorage.removeItem("jwt_token");
 		window.location.assign(window.origin);
 	}
-	return (<button class="btn btn-danger" onClick={removeJWT}>Log out</button>);
+	return (<button className="btn btn-danger" onClick={removeJWT}>Log out</button>);
 }
 
 function LogIn(props){
 	function redirectToLogInPage(){
 		window.location.assign(props.auth_url + '?next_url=' + signInCallbackURL());
 	}
-	return (<button class="btn btn-primary" onClick={redirectToLogInPage}> Log In </button>);
+	return (<button className="btn btn-primary" onClick={redirectToLogInPage}> Log In </button>);
 }
 
 export {App, SetJWT, LogOut};
