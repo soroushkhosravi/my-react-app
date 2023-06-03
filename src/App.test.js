@@ -4,7 +4,7 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 
 const LoggedInUserResponse = rest.get(
-	"http://127.0.0.1/api/user",
+	"http://backend/api/user",
 	(req, res, ctx) => {
 		return res(
 			ctx.json(
@@ -18,7 +18,7 @@ const LoggedInUserResponse = rest.get(
 )
 
 const NotLoggedInUserResponse = rest.get(
-	"http://127.0.0.1/api/user",
+	"http://backend/api/user",
 	(req, res, ctx) => {
 		return res(
 			ctx.json(
@@ -44,7 +44,7 @@ test('App rendering for a logged in user.', async () => {
   const originElement = await screen.findByText("Application not available because of:")
   expect(originElement).toBeInTheDocument();
   const firstEl = await screen.findByText("This is home page.");
-  const secEl = await screen.findByText("development environment.");
+  const secEl = await screen.findByText("test environment.");
   const thirdEl = await screen.findByText("The user is soroush with email khosravi")
   const LogOutButton = await screen.findByText("Log out")
   expect(firstEl).toBeInTheDocument();
