@@ -1,4 +1,5 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor} from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
 import {App} from './App';
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -24,7 +25,7 @@ const NotLoggedInUserResponse = rest.get(
 			ctx.json(
 				{
 					message: "user not logged in.",
-					user: JSON.stringify({"username": "soroush", "email": "khosravi"})
+					auth_url: "http://backend/auth"
 				}
 			)
 		)
@@ -58,4 +59,21 @@ test('Not logged in user response shows Login button.', async () => {
   render(<App />);
   const secEl = await screen.findByText("Log In");
   expect(secEl).toBeInTheDocument();
+});
+
+test('Clicking on log in link redirects you to proper url', async () => {
+  let assignLocation = jest.fn();
+  delete window.location;
+  window.location = {
+	assign: assignLocation,
+	origin: "http:127.0.0.1"
+  };
+  let testHistory, testLocation;
+  server.use(NotLoggedInUserResponse);
+  render(<App />);
+  const secEl = await screen.findByText("Log In");
+  userEvent.click(secEl);
+  expect(assignLocation).toHaveBeenCalledTimes(1);
+  expect(assignLocation).toHaveBeenCalledWith("http://backend/auth?next_url=http:127.0.0.1/jwt");
+  assignLocation.mockClear();
 });
