@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import {App} from './App';
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -41,12 +41,12 @@ afterAll(() => server.close());
 
 test('App rendering for a logged in user.', async () => {
   render(<App />);
-  const originElement = await screen.findByText("Application not available because of:")
+  const originElement = await waitFor (() => screen.findByText("Application not available because of:"));
   expect(originElement).toBeInTheDocument();
-  const firstEl = await screen.findByText("This is home page.");
-  const secEl = await screen.findByText("test environment.");
-  const thirdEl = await screen.findByText("The user is soroush with email khosravi")
-  const LogOutButton = await screen.findByText("Log out")
+  const firstEl = await waitFor (() => screen.findByText("This is home page."));
+  const secEl = await waitFor (() => screen.findByText("test environment."));
+  const thirdEl = await waitFor (() => screen.findByText("The user is soroush with email khosravi"));
+  const LogOutButton = await waitFor (() => screen.findByText("Log out"));
   expect(firstEl).toBeInTheDocument();
   expect(secEl).toBeInTheDocument();
   expect(thirdEl).toBeInTheDocument();
