@@ -1,6 +1,7 @@
 import './App.css';
 import {useParams, useNavigate} from "react-router-dom";
 import { useState, useEffect} from 'react';
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 
 function signInCallbackURL(){
 	return window.location.origin + '/jwt';
@@ -109,6 +110,18 @@ function App(props) {
 	}
 }
 
+function CompleteApp(){
+  return(
+    <BrowserRouter>
+		<Routes>
+            <Route path="/" element={< App name="App" names={["soroush", "farnaz"]} users={[10, 12]} />} />
+			<Route path="/jwt/:jwt" element={< SetJWT />} />
+			<Route path="/logout" element={< LogOut />} />
+        </Routes>
+	</BrowserRouter>
+  )
+}
+
 function SetJWT(){
 	const { jwt } = useParams();
 	localStorage.setItem("jwt_token", jwt)
@@ -131,4 +144,4 @@ function LogIn(props){
 	return (<button className="btn btn-primary" onClick={redirectToLogInPage}> Log In </button>);
 }
 
-export {App, SetJWT, LogOut};
+export {App, SetJWT, LogOut, CompleteApp};
