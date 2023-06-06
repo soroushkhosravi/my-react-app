@@ -93,3 +93,18 @@ test('Setting JWT adds token to local storage', () => {
   const jwt_token_after_setting = localStorage.getItem("jwt_token");
   expect(jwt_token_after_setting).toBe("token");
 });
+
+test('Clicking log out button removes jwt token.', async () => {
+  render(<CompleteApp />);
+  localStorage.setItem("jwt_token", "token");
+  const jwt_token_before_log_out = localStorage.getItem("jwt_token");
+  expect(jwt_token_before_log_out).toBe("token");
+  const LogOutButton = await waitFor (() => screen.findByText("Log out"));
+  expect(LogOutButton).toBeInTheDocument();
+  userEvent.click(LogOutButton);
+  expect(window.location.origin).toBe('http:127.0.0.1');
+  const jwt_token_after_log_out = localStorage.getItem("jwt_token");
+  expect(jwt_token_after_log_out).toBe(null);
+});
+
+
