@@ -1,8 +1,9 @@
 import { render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
-import {App} from './App';
+import {App, SetJWT} from './App';
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 
 const LoggedInUserResponse = rest.get(
 	"http://backend/api/user",
@@ -40,6 +41,13 @@ beforeAll(() => server.listen());
 afterEach(()=> server.resetHandlers());
 afterAll(() => server.close());
 
+const mockedUsedNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useParams: () => ({ jwt: 'token' }),
+  useNavigate: () => mockedUsedNavigate,
+}));
+
 test('App rendering for a logged in user.', async () => {
   render(<App />);
   const originElement = await waitFor (() => screen.findByText("Application not available because of:"));
@@ -76,4 +84,12 @@ test('Clicking on log in link redirects you to proper url', async () => {
   expect(assignLocation).toHaveBeenCalledTimes(1);
   expect(assignLocation).toHaveBeenCalledWith("http://backend/auth?next_url=http:127.0.0.1/jwt");
   assignLocation.mockClear();
+});
+
+test('Setting JWT adds token to local storage', () => {
+  const jwt_token = localStorage.getItem("jwt_token");
+  expect(jwt_token).toBe(null);
+  render(<SetJWT />);
+  const jwt_token_after_setting = localStorage.getItem("jwt_token");
+  expect(jwt_token_after_setting).toBe("token");
 });
