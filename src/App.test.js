@@ -1,6 +1,6 @@
 import { render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
-import {App, SetJWT} from './App';
+import {CompleteApp, SetJWT} from './App';
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BrowserRouter, Routes, Route} from "react-router-dom";
@@ -49,7 +49,7 @@ jest.mock('react-router-dom', () => ({
 }));
 
 test('App rendering for a logged in user.', async () => {
-  render(<App />);
+  render(<CompleteApp />);
   const originElement = await waitFor (() => screen.findByText("Page loading."));
   expect(originElement).toBeInTheDocument();
   const firstEl = await waitFor (() => screen.findByText("This is home page."));
@@ -64,7 +64,7 @@ test('App rendering for a logged in user.', async () => {
 
 test('Not logged in user response shows Login button.', async () => {
   server.use(NotLoggedInUserResponse);
-  render(<App />);
+  render(<CompleteApp />);
   const secEl = await screen.findByText("Log In");
   expect(secEl).toBeInTheDocument();
 });
@@ -78,7 +78,7 @@ test('Clicking on log in link redirects you to proper url', async () => {
   };
   let testHistory, testLocation;
   server.use(NotLoggedInUserResponse);
-  render(<App />);
+  render(<CompleteApp />);
   const secEl = await screen.findByText("Log In");
   userEvent.click(secEl);
   expect(assignLocation).toHaveBeenCalledTimes(1);
