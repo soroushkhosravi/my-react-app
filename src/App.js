@@ -22,6 +22,7 @@ function SetInitials(){
 	const [apiRead, setApiRead] = useState(false);
 	const [apiError, setApiError] = useState(null);
 	const [authURL, setAuthURL] = useState(null);
+	const [pageLoaded, setPageLoaded] = useState(false);
 	return [
 		userLoggedIn,
 		setUserLoggedIn,
@@ -36,6 +37,8 @@ function SetInitials(){
 		setApiError,
 		authURL,
 		setAuthURL,
+		pageLoaded,
+		setPageLoaded,
 	];
 };
 
@@ -55,6 +58,8 @@ function App(props) {
 		setApiError,
 		authURL,
 		setAuthURL,
+		pageLoaded,
+		setPageLoaded
 	] = SetInitials();
 
 	useEffect(() => {
@@ -79,13 +84,20 @@ function App(props) {
 					setEmail(user_data.email);
 					setUserLoggedIn(true);
 				}
+				setPageLoaded(true);
 			} catch (error){
+			    setPageLoaded(true);
 				setApiRead(false);
 				setApiError(error.message);
 			}
 		}
 		setToken();
-	}, [jwt_token, setApiError, setApiRead, setEmail, setUserName, setUserLoggedIn, setAuthURL])
+	}, [jwt_token, setApiError, setApiRead, setEmail, setUserName, setUserLoggedIn, setAuthURL, setPageLoaded])
+	if (pageLoaded === false){
+		return(
+		  <div>Page loading.</div>
+		)
+	}
 	if (apiRead === false){
 		return(
 			<div>

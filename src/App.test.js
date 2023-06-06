@@ -50,7 +50,7 @@ jest.mock('react-router-dom', () => ({
 
 test('App rendering for a logged in user.', async () => {
   render(<App />);
-  const originElement = await waitFor (() => screen.findByText("Application not available because of:"));
+  const originElement = await waitFor (() => screen.findByText("Page loading."));
   expect(originElement).toBeInTheDocument();
   const firstEl = await waitFor (() => screen.findByText("This is home page."));
   const secEl = await waitFor (() => screen.findByText("test environment."));
