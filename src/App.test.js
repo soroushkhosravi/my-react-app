@@ -1,6 +1,6 @@
 import { render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
-import {CompleteApp, SetJWT, ProtectedRoute, App, Address, LogOut} from './App';
+import {CompleteApp, SetJWT, ProtectedRoute, App, Address, LogOut, AddressButton} from './App';
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BrowserRouter, Routes, Route, MemoryRouter} from "react-router-dom";
@@ -124,8 +124,8 @@ test('Going to home shows the message if user logged in.', async () => {
         </Routes>
 		</MemoryRouter>,
 	)
-	const homeEl = await screen.findByText("Address investigation.");
-	expect(homeEl).toBeInTheDocument();
+	const addressHeading = await screen.findByText("Address investigation.");
+	expect(addressHeading).toBeInTheDocument();
 });
 
 test('Going to home shows Log in button if user not logged in.', async () => {
@@ -149,4 +149,14 @@ test('Going to home shows Log in button if user not logged in.', async () => {
 	expect(logInButton).toBeInTheDocument();
 });
 
+
+test('Address Button element shows proper button.', () => {
+	render(
+		<BrowserRouter>
+			<AddressButton />
+		</BrowserRouter>
+	)
+	const button = screen.getByText("Address investigation");
+	expect(button).toBeInTheDocument();
+});
 

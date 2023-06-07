@@ -1,7 +1,7 @@
 import './App.css';
 import {useParams, useNavigate} from "react-router-dom";
 import { useState, useEffect} from 'react';
-import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate,  Link} from "react-router-dom";
 
 function signInCallbackURL(){
 	return window.location.origin + '/jwt';
@@ -108,6 +108,7 @@ function App() {
 		return (
 			<div>
 				< LogOut />
+				< AddressButton />
 			    <h1>{process.env.REACT_APP_ENV} environment.</h1>
 			    <p> The user is {username} with email {email}</p>
 			    <p> This is home page.</p>
@@ -124,7 +125,24 @@ function App() {
 
 function Address(){
 	return(
-		<div>Address investigation.</div>
+		<>
+			<h1>Address investigation.</h1>
+		<form >
+			<label>
+			Post Code:
+			<input type="text"/>
+			</label>
+			<input type="submit" value="Submit" />
+		</form>
+		</>
+	)
+}
+
+function AddressButton(){
+	return(
+		<Link to="/address">
+			<button className="btn btn-danger" type="button">Address investigation</button>
+		</Link>
 	)
 }
 
@@ -223,4 +241,4 @@ function LogIn(props){
 	return (<button className="btn btn-primary" onClick={redirectToLogInPage}> Log In </button>);
 }
 
-export {App, SetJWT, LogOut, CompleteApp, ProtectedRoute, Address};
+export {App, SetJWT, LogOut, CompleteApp, ProtectedRoute, Address, AddressButton};
