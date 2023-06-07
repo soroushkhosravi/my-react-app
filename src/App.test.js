@@ -1,9 +1,9 @@
 import { render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
-import {CompleteApp, SetJWT} from './App';
+import {CompleteApp, SetJWT, ProtectedRoute, App, Address, LogOut} from './App';
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Routes, Route, MemoryRouter} from "react-router-dom";
 
 const LoggedInUserResponse = rest.get(
 	"http://backend/api/user",
@@ -105,6 +105,48 @@ test('Clicking log out button removes jwt token.', async () => {
   expect(window.location.origin).toBe('http:127.0.0.1');
   const jwt_token_after_log_out = localStorage.getItem("jwt_token");
   expect(jwt_token_after_log_out).toBe(null);
+});
+
+
+test('Going to home shows the message if user logged in.', async () => {
+	const homeRoute = '/address'
+	render(
+		<MemoryRouter initialEntries={[homeRoute]}>
+			<Routes>
+            <Route path="/" element={< App />} />
+            <Route path="/address" element={
+                <ProtectedRoute>
+                    <Address/>
+                </ProtectedRoute>
+            } ></Route>
+			<Route path="/jwt/:jwt" element={< SetJWT />} />
+			<Route path="/logout" element={< LogOut />} />
+        </Routes>
+		</MemoryRouter>,
+	)
+	const homeEl = await screen.findByText("Address investigation.");
+	expect(homeEl).toBeInTheDocument();
+});
+
+test('Going to home shows Log in button if user not logged in.', async () => {
+	server.use(NotLoggedInUserResponse);
+	const homeRoute = '/address'
+	render(
+		<MemoryRouter initialEntries={[homeRoute]}>
+			<Routes>
+            <Route path="/" element={< App />} />
+            <Route path="/address" element={
+                <ProtectedRoute>
+                    <Address/>
+                </ProtectedRoute>
+            } ></Route>
+			<Route path="/jwt/:jwt" element={< SetJWT />} />
+			<Route path="/logout" element={< LogOut />} />
+        </Routes>
+		</MemoryRouter>,
+	)
+	const logInButton = await screen.findByText("Log In");
+	expect(logInButton).toBeInTheDocument();
 });
 
 

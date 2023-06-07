@@ -122,9 +122,9 @@ function App() {
 	}
 }
 
-function Home(){
+function Address(){
 	return(
-		<div>Hello this is home man.</div>
+		<div>Address investigation.</div>
 	)
 }
 
@@ -189,9 +189,9 @@ function CompleteApp(){
     <BrowserRouter>
 		<Routes>
             <Route path="/" element={< App />} />
-            <Route path="/home" element={
+            <Route path="/address" element={
                 <ProtectedRoute>
-                    <Home/>
+                    <Address/>
                 </ProtectedRoute>
             } ></Route>
 			<Route path="/jwt/:jwt" element={< SetJWT />} />
@@ -223,4 +223,4 @@ function LogIn(props){
 	return (<button className="btn btn-primary" onClick={redirectToLogInPage}> Log In </button>);
 }
 
-export {App, SetJWT, LogOut, CompleteApp};
+export {App, SetJWT, LogOut, CompleteApp, ProtectedRoute, Address};
