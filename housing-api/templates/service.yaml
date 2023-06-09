@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-react-app-service-loadbalancer
+spec:
+#  We would put load balancer type if we wanted a classic load balancer.
+#  type: LoadBalancer
+  type: NodePort
+  selector:
+    test: MyReactApp
+  ports:
+    - protocol: TCP
+      port: 80
+#      We would use port 5000 if we did not have nginx on top of the gunicorn
+#      targetPort: 5000
+      targetPort: 80

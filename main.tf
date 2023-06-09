@@ -52,11 +52,10 @@ data "external" "env" {
   program = ["sh", "${path.module}/env.sh"]
 }
 
-/*
-resource "helm_release" "housing-api-remote-release" {
-  name         = "housing-api-release"
-  namespace    = "housing-api"
-  chart        = "./housing-api"
+resource "helm_release" "my-react-app-release" {
+  name         = "my-react-app-release"
+  namespace    = "my-react-app"
+  chart        = "./my-react-app"
   reset_values = true
   set {
     name  = "current-time"
@@ -69,13 +68,13 @@ resource "helm_release" "housing-api-remote-release" {
   }
 }
 
-
+/*
 data "kubernetes_ingress_v1" "example" {
   metadata {
     name      = "housing-api-ingress"
     namespace = "housing-api"
   }
-  depends_on = [helm_release.housing-api-remote-release]
+  depends_on = [helm_release.my-react-app-release]
 }
 
 data "aws_route53_zone" "selected" {

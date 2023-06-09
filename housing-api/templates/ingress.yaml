@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-react-app-ingress
+  namespace: my-react-app
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+#    Comment out the below comment if you want to have customised security groups on the load balancer controller.
+#    alb.ingress.kubernetes.io/security-groups: "{{.Values.loadBalancerSgId}},{{.Values.VpcSgId}}"
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: my-react-app-service-loadbalancer
+                port:
+                  number: 80
