@@ -21,3 +21,4 @@ workflows:
                 - main
           dockerfile: Dockerfile
           repo: my-react-app
+          extra-build-args: "--build-arg ENVIRONMENT=production"
