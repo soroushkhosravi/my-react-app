@@ -68,11 +68,10 @@ resource "helm_release" "my-react-app-release" {
   }
 }
 
-/*
 data "kubernetes_ingress_v1" "example" {
   metadata {
-    name      = "housing-api-ingress"
-    namespace = "housing-api"
+    name      = "my-react-app-ingress"
+    namespace = "my-react-app"
   }
   depends_on = [helm_release.my-react-app-release]
 }
@@ -94,7 +93,7 @@ data "aws_lb" "foobar" {
 
 resource "aws_route53_record" "abc" {
   zone_id = data.aws_route53_zone.selected.id
-  name    = "abc"
+  name    = "test"
   type    = "A"
 
   alias {
@@ -103,5 +102,3 @@ resource "aws_route53_record" "abc" {
     evaluate_target_health = true
   }
 }
-
-*/
