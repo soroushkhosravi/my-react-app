@@ -26,6 +26,11 @@ jobs:
 #            tar -x -C /tmp -f /tmp/docker-$VER.tgz
 #            mv /tmp/docker/* /usr/bin
       - run:
+          name: Install curl
+          command: |
+            apt update && apt upgrade
+            apt install curl
+      - run:
           name: Install npm
           command: |
             curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.3/install.sh | bash
