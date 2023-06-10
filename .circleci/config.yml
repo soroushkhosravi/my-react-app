@@ -28,15 +28,15 @@ jobs:
       - run:
           name: create docker container
           command: |
-            docker build -t soroush --build-arg ENVIRONMENT=staging .
+            docker build -t hey --build-arg ENVIRONMENT=staging .
       - run:
           name: Running the container
           command: |
-            docker run -d --name soroush soroush tail -f /dev/null
+            docker run -d --name hey hey tail -f /dev/null
       - run:
           name: Run the unit tests
           command: |
-            docker exec my-react-app-soroush npm test
+            docker exec hey npm test
       - run:
           name: stop the container
           command: |
