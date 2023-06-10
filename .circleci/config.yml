@@ -7,11 +7,45 @@ orbs:
   terraform2: orbies/terraform@8.1.0
   terraform: circleci/terraform@3.1
 
+jobs:
+  test:
+    docker:
+      - image: node:19.5.0-alpine
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          # installs a docker client that will be used to run the docker commands
+          name: Install Docker client
+          command: |
+            set -x
+            VER="17.03.0-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin
+      - run:
+          name: create docker container
+          command: |
+            docker build -t soroush --build-args ENVIRONMENT=test .
+#      - run:
+#          name: Running the container
+#          command: |
+#            docker run -d --name soroush soroush tail -f /dev/null
+      - run:
+          name: Run the unit tests
+          command: |
+            docker run soroush npm test
+#      - run:
+#          name: stop the container
+#          command: |
+#            docker stop $(docker ps -aq)
+
 workflows:
   application-deployment:
     jobs:
       # The requirements of this job are setting the following ENV variables for the circleci application:
       # AWS_ACCESS_KEY_ID, AWS_ACCOUNT_ID, AWS_ECR_REGISTRY_ID, AWS_REGION, AWS_SECRET_ACCESS_KEY
+      - test
       - aws-ecr/build-and-push-image:
           name: BuildAppImage
           tag: $CIRCLE_SHA1
@@ -22,6 +56,8 @@ workflows:
           dockerfile: Dockerfile
           repo: my-react-app
           extra-build-args: "--build-arg ENVIRONMENT=production"
+          requires:
+            - test
 
       - terraform/fmt:
           checkout: true
