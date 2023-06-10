@@ -36,7 +36,7 @@ jobs:
       - run:
           name: Run the unit tests
           command: |
-            docker run soroush npm test
+            docker exec soroush npm test
       - run:
           name: stop the container
           command: |
