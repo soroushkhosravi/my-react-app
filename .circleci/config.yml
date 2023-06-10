@@ -34,6 +34,7 @@ jobs:
           name: Install bash
           command: |
             apk --no-cache add bash
+            touch ~/.bash_profile
       - run:
           name: Install npm
           command: |
