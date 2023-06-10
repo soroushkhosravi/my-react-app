@@ -28,7 +28,7 @@ jobs:
       - run:
           name: create docker container
           command: |
-            docker build -t soroush --build-arg ENVIRONMENT=test .
+            docker build -t soroush --build-arg ENVIRONMENT=staging .
 #      - run:
 #          name: Running the container
 #          command: |
@@ -37,10 +37,10 @@ jobs:
           name: Run the unit tests
           command: |
             docker run soroush npm test
-#      - run:
-#          name: stop the container
-#          command: |
-#            docker stop $(docker ps -aq)
+      - run:
+          name: stop the container
+          command: |
+            docker stop $(docker ps -aq)
 
 workflows:
   application-deployment:
