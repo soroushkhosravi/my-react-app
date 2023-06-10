@@ -36,7 +36,7 @@ jobs:
       - run:
           name: Run the unit tests
           command: |
-            docker exec hey npm test
+            docker exec -it hey sh -c "npm test"
       - run:
           name: stop the container
           command: |
