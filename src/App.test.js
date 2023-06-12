@@ -124,7 +124,7 @@ test('Going to home shows the message if user logged in.', async () => {
         </Routes>
 		</MemoryRouter>,
 	)
-	const addressHeading = await screen.findByText("Address investigation.");
+	const addressHeading = await screen.findByText("Addres investigation.");
 	expect(addressHeading).toBeInTheDocument();
 });
 
