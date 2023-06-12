@@ -9,14 +9,7 @@ import { Address } from './Address';
 import { AddressButton } from './AddressButton';
 import { SetInitials } from './SetInitials';
 import { ProtectedRoute } from './ProtectedRoute'
-
-function userURL(){
-	return process.env.REACT_APP_BACKEND_URL + '/api/user'
-}
-function createToken(token){
-	return "Bearer " + token;
-}
-
+import { createToken, userURL } from './helpers.js'
 
 function App() {
 	const [

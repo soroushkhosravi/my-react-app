@@ -2,13 +2,7 @@ import { Navigate } from "react-router-dom";
 import { useState, useEffect} from 'react';
 
 import { SetInitials } from './SetInitials';
-
-function userURL(){
-	return process.env.REACT_APP_BACKEND_URL + '/api/user'
-}
-function createToken(token){
-	return "Bearer " + token;
-}
+import { createToken, userURL } from './helpers.js'
 
 const ProtectedRoute = ({children}) => {
 		const [
