@@ -45,7 +45,7 @@ jobs:
       - run:
           name: create docker container
           command: |
-            docker build -t hey --build-arg ENVIRONMENT=staging .
+            docker build -t hey --build-arg ENVIRONMENT=development .
       - run:
           name: Running the container
           command: |
