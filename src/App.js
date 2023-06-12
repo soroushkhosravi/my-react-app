@@ -4,7 +4,11 @@ import { useState, useEffect} from 'react';
 import { BrowserRouter, Routes, Route, Navigate,  Link} from "react-router-dom";
 import { LogOut } from './LogOut';
 import { LogIn } from './LogIn';
-import { SetJWT } from './setJWT'
+import { SetJWT } from './setJWT';
+import { Address } from './Address';
+import { AddressButton } from './AddressButton';
+import { SetInitials } from './SetInitials';
+import { ProtectedRoute } from './ProtectedRoute'
 
 function userURL(){
 	return process.env.REACT_APP_BACKEND_URL + '/api/user'
@@ -12,34 +16,6 @@ function userURL(){
 function createToken(token){
 	return "Bearer " + token;
 }
-
-function SetInitials(){
-	const [userLoggedIn, setUserLoggedIn] = useState(null);
-	const [username, setUserName] = useState(null);
-	const [email, setEmail] = useState(null);
-	const [jwt_token] = useState(localStorage.getItem("jwt_token"))
-	const [apiRead, setApiRead] = useState(false);
-	const [apiError, setApiError] = useState(null);
-	const [authURL, setAuthURL] = useState(null);
-	const [pageLoaded, setPageLoaded] = useState(false);
-	return [
-		userLoggedIn,
-		setUserLoggedIn,
-		username,
-		setUserName,
-		email,
-		setEmail,
-		jwt_token,
-		apiRead,
-		setApiRead,
-		apiError,
-		setApiError,
-		authURL,
-		setAuthURL,
-		pageLoaded,
-		setPageLoaded,
-	];
-};
 
 
 function App() {
@@ -121,85 +97,6 @@ function App() {
 		)
 	}
 }
-
-function Address(){
-	return(
-		<>
-			<h1>Address investigation.</h1>
-			<form >
-				<label>
-				Post Code:
-				<input type="text"/>
-				</label>
-				<input type="submit" value="Submit" className="btn btn-primary" />
-			</form>
-		</>
-	)
-}
-
-function AddressButton(){
-	return(
-		<Link to="/address">
-			<button className="btn btn-danger" type="button">Address investigation</button>
-		</Link>
-	)
-}
-
-const ProtectedRoute = ({children}) => {
-		const [
-		userLoggedIn,
-		setUserLoggedIn,
-		username,
-		setUserName,
-		email,
-		setEmail,
-		jwt_token,
-		apiRead,
-		setApiRead,
-		apiError,
-		setApiError,
-		authURL,
-		setAuthURL,
-		pageLoaded,
-		setPageLoaded
-	] = SetInitials();
-		useEffect(() => {
-		async function setToken(){
-			try {
-				const response = await fetch(
-					userURL(),
-					{
-						method: 'GET',
-						headers: {'Authentication': createToken(jwt_token)}
-					}
-				)
-				const json_response = await response.json();
-				setApiRead(true);
-				if(json_response.message === 'user not logged in.'){
-					setUserLoggedIn(false);
-					setAuthURL(json_response.auth_url);
-				}
-				if(json_response.message === 'current user is found.'){
-					const user_data = JSON.parse(json_response.user)
-					setUserName(user_data.username);
-					setEmail(user_data.email);
-					setUserLoggedIn(true);
-				}
-				setPageLoaded(true);
-			} catch (error){
-			    setPageLoaded(true);
-				setApiRead(false);
-				setApiError(error.message);
-			}
-		}
-		setToken();
-	}, [jwt_token, setApiError, setApiRead, setEmail, setUserName, setUserLoggedIn, setAuthURL, setPageLoaded])
-	if (apiRead === true & userLoggedIn === true){
-		return children
-	} else if (pageLoaded === true){
-		return <Navigate to='/' />;
-	}
-};
 
 function CompleteApp(){
   return(
