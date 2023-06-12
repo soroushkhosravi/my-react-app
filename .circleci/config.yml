@@ -16,32 +16,6 @@ jobs:
       - setup_remote_docker:
             docker_layer_caching: true
             version: 20.10.12
-#      - run:
-#          # installs a docker client that will be used to run the docker commands
-#          name: Install Docker client
-#          command: |
-#            set -x
-#            VER="17.03.0-python:3.8ce"
-#            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
-#            tar -x -C /tmp -f /tmp/docker-$VER.tgz
-#            mv /tmp/docker/* /usr/bin
-#      - run:
-#          name: Install curl
-#          command: |
-#            apk update && apk upgrade
-#            apk --no-cache add curl
-#      - run:
-#          name: Install bash
-#          command: |
-#            apk --no-cache add bash
-#            touch ~/.bash_profile
-#      - run:
-#          name: Install npm
-#          command: |
-#            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.3/install.sh | sh
-#      - run:
-#          name: Install node
-#          command: nvm install node
       - run:
           name: create docker container
           command: |
@@ -53,7 +27,7 @@ jobs:
       - run:
           name: Run the unit tests
           command: |
-            docker exec -it hey sh -c "npm test"
+            docker exec -it hey sh -c "CI=true npm test"
       - run:
           name: stop the container
           command: |
