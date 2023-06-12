@@ -2,10 +2,9 @@ import './App.css';
 import {useParams, useNavigate} from "react-router-dom";
 import { useState, useEffect} from 'react';
 import { BrowserRouter, Routes, Route, Navigate,  Link} from "react-router-dom";
-
-function signInCallbackURL(){
-	return window.location.origin + '/jwt';
-}
+import { LogOut } from './LogOut';
+import { LogIn } from './LogIn';
+import { SetJWT } from './setJWT'
 
 function userURL(){
 	return process.env.REACT_APP_BACKEND_URL + '/api/user'
@@ -217,28 +216,6 @@ function CompleteApp(){
         </Routes>
 	</BrowserRouter>
   )
-}
-
-function SetJWT(){
-	const { jwt } = useParams();
-	localStorage.setItem("jwt_token", jwt)
-	const navigate = useNavigate();
-	useEffect(() => { navigate("/");}, [navigate]);
-}
-
-function LogOut(){
-	function removeJWT(){
-		localStorage.removeItem("jwt_token");
-		window.location.assign(window.origin);
-	}
-	return (<button className="btn btn-danger" onClick={removeJWT}>Log out</button>);
-}
-
-function LogIn(props){
-	function redirectToLogInPage(){
-		window.location.assign(props.auth_url + '?next_url=' + signInCallbackURL());
-	}
-	return (<button className="btn btn-primary" onClick={redirectToLogInPage}> Log In </button>);
 }
 
 export {App, SetJWT, LogOut, CompleteApp, ProtectedRoute, Address, AddressButton};
