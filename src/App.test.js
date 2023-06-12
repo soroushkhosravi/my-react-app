@@ -4,6 +4,7 @@ import {CompleteApp, SetJWT, ProtectedRoute, App, Address, LogOut, AddressButton
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BrowserRouter, Routes, Route, MemoryRouter} from "react-router-dom";
+import { UnauthorisedUserMessage } from './helpers.js'
 
 const LoggedInUserResponse = rest.get(
 	"http://backend/api/user",
@@ -25,7 +26,7 @@ const NotLoggedInUserResponse = rest.get(
 		return res(
 			ctx.json(
 				{
-					message: "user not logged in.",
+					message: UnauthorisedUserMessage,
 					auth_url: "http://backend/auth"
 				}
 			)

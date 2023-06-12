@@ -5,4 +5,6 @@ function createToken(token){
 	return "Bearer " + token;
 }
 
-export { createToken, userURL }
+const UnauthorisedUserMessage = 'user not logged in.'
+
+export { createToken, userURL, UnauthorisedUserMessage }

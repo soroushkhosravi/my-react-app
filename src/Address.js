@@ -1,6 +1,7 @@
 import { useState, useEffect} from 'react';
 import { createToken } from './helpers';
-import { BrowserRouter, Routes, Route, Navigate,  Link} from "react-router-dom";;
+import { BrowserRouter, Routes, Route, Navigate,  Link} from "react-router-dom";
+import { UnauthorisedUserMessage } from './helpers'
 
 function Address(){
 	const [postCode, setPostCode] = useState('');
@@ -24,7 +25,7 @@ function Address(){
 			}
 		)
 		const json_response = await response.json();
-		if (json_response.message === 'user not logged in.'){
+		if (json_response.message === UnauthorisedUserMessage){
 			setInvalidToken(true);
 			return
 		}

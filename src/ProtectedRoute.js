@@ -2,7 +2,7 @@ import { Navigate } from "react-router-dom";
 import { useState, useEffect} from 'react';
 
 import { SetInitials } from './SetInitials';
-import { createToken, userURL } from './helpers.js'
+import { createToken, userURL, UnauthorisedUserMessage } from './helpers.js'
 
 const ProtectedRoute = ({children}) => {
 		const [
@@ -34,7 +34,7 @@ const ProtectedRoute = ({children}) => {
 				)
 				const json_response = await response.json();
 				setApiRead(true);
-				if(json_response.message === 'user not logged in.'){
+				if(json_response.message === UnauthorisedUserMessage){
 					setUserLoggedIn(false);
 					setAuthURL(json_response.auth_url);
 				}

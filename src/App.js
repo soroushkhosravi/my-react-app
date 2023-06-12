@@ -9,7 +9,7 @@ import { Address } from './Address';
 import { AddressButton } from './AddressButton';
 import { SetInitials } from './SetInitials';
 import { ProtectedRoute } from './ProtectedRoute'
-import { createToken, userURL } from './helpers.js'
+import { createToken, userURL, UnauthorisedUserMessage } from './helpers.js'
 
 function App() {
 	const [
@@ -42,7 +42,7 @@ function App() {
 				)
 				const json_response = await response.json();
 				setApiRead(true);
-				if(json_response.message === 'user not logged in.'){
+				if(json_response.message === UnauthorisedUserMessage){
 					setUserLoggedIn(false);
 					setAuthURL(json_response.auth_url);
 				}
