@@ -1,7 +1,6 @@
 import './App.css';
-import {useParams, useNavigate} from "react-router-dom";
-import { useState, useEffect} from 'react';
-import { BrowserRouter, Routes, Route, Navigate,  Link} from "react-router-dom";
+import { useEffect} from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LogOut } from './LogOut';
 import { LogIn } from './LogIn';
 import { SetJWT } from './setJWT';
@@ -10,6 +9,7 @@ import { AddressButton } from './AddressButton';
 import { SetInitials } from './SetInitials';
 import { ProtectedRoute } from './ProtectedRoute'
 import { createToken, userURL, UnauthorisedUserMessage } from './helpers.js'
+import {log} from './logging';
 
 function App() {
 	const [
@@ -67,6 +67,15 @@ function App() {
 		)
 	}
 	if (apiRead === false){
+		log(
+			'feature_testing',
+			apiError,
+			'api_reading',
+			{
+				error_date: "Was not able to read from backend." ,
+			},
+			"info",
+		)
 		return(
 			<div>
 				<p>Application not available because of: {apiError}</p>
