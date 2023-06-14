@@ -1,11 +1,11 @@
-import { MenuItems } from './MenuItems'
+import { menuItems } from './menuItems'
 
 const NavBar = () => {
 	return(
 		<nav>
 			<ul className="nav">
 				{
-					MenuItems.map(
+					menuItems.map(
 						(menu, index) => {
 							return (
 								<li className="nav-item" key={index}>
