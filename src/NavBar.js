@@ -1,4 +1,5 @@
-import { menuItems } from './menuItems'
+import { menuItems } from './menuItems';
+import { MenuItems } from './MenuItemComponents';
 
 const NavBar = () => {
 	return(
@@ -7,11 +8,7 @@ const NavBar = () => {
 				{
 					menuItems.map(
 						(menu, index) => {
-							return (
-								<li className="nav-item" key={index}>
-									<a className="nav-link" href={ menu.url }>{ menu.title }</a>
-								</li>
-							)
+							return <MenuItems items={menu} key={index} />;
 						}
 					)
 				}
