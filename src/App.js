@@ -7,9 +7,10 @@ import { SetJWT } from './setJWT';
 import { Address } from './Address';
 import { AddressButton } from './AddressButton';
 import { SetInitials } from './SetInitials';
-import { ProtectedRoute } from './ProtectedRoute'
-import { createToken, userURL, UnauthorisedUserMessage } from './helpers.js'
+import { ProtectedRoute } from './ProtectedRoute';
+import { createToken, userURL, UnauthorisedUserMessage } from './helpers.js';
 import {log} from './logging';
+import { Header } from './Header';
 
 function App() {
 	const [
@@ -84,8 +85,7 @@ function App() {
 	} else if (userLoggedIn === true){
 		return (
 			<div>
-				< LogOut />
-				< AddressButton />
+				< Header />
 			    <h1>{process.env.REACT_APP_ENV} environment.</h1>
 			    <p> The user is {username} with email {email}</p>
 			    <p> This is home page.</p>

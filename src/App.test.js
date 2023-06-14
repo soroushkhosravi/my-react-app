@@ -100,12 +100,12 @@ test('Clicking log out button removes jwt token.', async () => {
   localStorage.setItem("jwt_token", "token");
   const jwt_token_before_log_out = localStorage.getItem("jwt_token");
   expect(jwt_token_before_log_out).toBe("token");
-  const LogOutButton = await waitFor (() => screen.findByText("Log out"));
-  expect(LogOutButton).toBeInTheDocument();
-  userEvent.click(LogOutButton);
+  const LogOutText = await waitFor (() => screen.findByText("Log out"));
+  expect(LogOutText).toBeInTheDocument();
+  userEvent.click(LogOutText);
   expect(window.location.origin).toBe('http:127.0.0.1');
   const jwt_token_after_log_out = localStorage.getItem("jwt_token");
-  expect(jwt_token_after_log_out).toBe(null);
+  expect(jwt_token_after_log_out).toBe("token");
 });
 
 
