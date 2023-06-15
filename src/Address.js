@@ -1,7 +1,8 @@
 import { useState, useEffect} from 'react';
 import { createToken } from './helpers';
 import { BrowserRouter, Routes, Route, Navigate,  Link} from "react-router-dom";
-import { UnauthorisedUserMessage } from './helpers'
+import { UnauthorisedUserMessage } from './helpers';
+import { Header } from './Header';
 
 function Address(){
 	const [postCode, setPostCode] = useState('');
@@ -36,6 +37,7 @@ function Address(){
 	}
 	return(
 		<>
+		    <Header />
 			<h1>Address investigation.</h1>
 			<form onSubmit={handleSubmit} >
 				Post Code:
