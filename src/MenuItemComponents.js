@@ -6,10 +6,10 @@ const MenuItems = ({ items }) => {
 			{
 				items.submenu ? (
 					<>
-						<button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+						<button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick={(event) => (event.target.blur())}>
 							{ items.title}{ ' ' }
-							<Dropdown submenus={items.submenu} />
 						</button>
+						<Dropdown submenus={items.submenu} />
 					</>
 				) : (
 					<a href={items.url} className='nav-link'>{ items.title}</a>
