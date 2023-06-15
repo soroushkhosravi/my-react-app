@@ -1,9 +1,9 @@
 const Dropdown = ({ submenus }) => {
   return (
-    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <ul className="dropdown-menu">
       {submenus.map((submenu, index) => (
         <li key={index}>
-          <a href={submenu.url} target="_blanck">{submenu.title}</a>
+          <a href={submenu.url} className="dropdown-item">{submenu.title}</a>
         </li>
       ))}
     </ul>
