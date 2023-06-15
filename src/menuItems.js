@@ -8,7 +8,7 @@ const menuItems = [
 		url: '/services',
 		submenu: [
 			{
-				title: 'Address Investigation',
+				title: 'Address Check',
 				url: '/address'
 			}
 		]

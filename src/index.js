@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import {CompleteApp} from './App';
 import reportWebVitals from './reportWebVitals';
-import { sentryInitiator } from './sentryInitiator'
+import { sentryInitiator } from './sentryInitiator';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/js/dist/dropdown';
 
 sentryInitiator();
 

@@ -6,7 +6,7 @@ const MenuItems = ({ items }) => {
 			{
 				items.submenu ? (
 					<>
-						<button type='button' aria-haspopup='true' className='nav-link dropdown-toggle'>
+						<button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 							{ items.title}{ ' ' }
 							<Dropdown submenus={items.submenu} />
 						</button>
