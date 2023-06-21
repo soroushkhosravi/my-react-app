@@ -55,7 +55,9 @@ data "external" "env" {
 resource "helm_release" "my-react-app-release" {
   name         = "my-react-app-release"
   namespace    = "my-react-app"
-  chart        = "./my-react-app"
+  repository   = "https://soroushkhosravi.github.io/helm-charts"
+  version      = "0.3.0"
+  chart        = "frontend"
   reset_values = true
   set {
     name  = "current-time"
