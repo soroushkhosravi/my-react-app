@@ -65,6 +65,11 @@ resource "helm_release" "my-react-app-release" {
   }
 
   set {
+    name  = "serviceAccountName"
+    value = "my-react-app"
+  }
+
+  set {
     name  = "namespaceName"
     value = "my-react-app"
   }
