@@ -61,7 +61,7 @@ resource "helm_release" "my-react-app-release" {
   reset_values = true
   set {
     name  = "appName"
-    value = "myReactApp"
+    value = "MyReactApp"
   }
 
   set {
