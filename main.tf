@@ -75,6 +75,11 @@ resource "helm_release" "my-react-app-release" {
   }
 
   set {
+    name  = "loadBalancerName"
+    value = "react-app-load-balancer"
+  }
+
+  set {
     name  = "current-time"
     value = timestamp()
   }
