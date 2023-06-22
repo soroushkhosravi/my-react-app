@@ -56,9 +56,24 @@ resource "helm_release" "my-react-app-release" {
   name         = "my-react-app-release"
   namespace    = "my-react-app"
   repository   = "https://soroushkhosravi.github.io/helm-charts"
-  version      = "0.3.0"
+  version      = "0.4.0"
   chart        = "frontend"
   reset_values = true
+  set {
+    name  = "appName"
+    value = "myReactApp"
+  }
+
+  set {
+    name  = "serviceAccountName"
+    value = "my-react-app"
+  }
+
+  set {
+    name  = "namespaceName"
+    value = "my-react-app"
+  }
+
   set {
     name  = "current-time"
     value = timestamp()
